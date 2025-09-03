@@ -87,8 +87,8 @@ class VapQuizApp {
 
         if (questionText) questionText.textContent = question.question;
         
-        // Afficher l'arôme testé au lieu du nom du produit
-        if (productName) productName.textContent = question.targetFlavor || question.product.name;
+        // Afficher le nom du produit
+        if (productName) productName.textContent = question.product.name;
         
         if (productRange) {
             if (question.product.range) {
@@ -100,64 +100,120 @@ class VapQuizApp {
             }
         }
 
-        // Générer les boutons de réponse
+        // Générer les choix de réponse (checkboxes pour choix multiples)
         if (answersContainer) {
             answersContainer.innerHTML = '';
-            question.choices.forEach((choice, index) => {
-                const button = document.createElement('button');
-                button.className = 'answer-btn';
-                button.textContent = choice;
-                button.addEventListener('click', () => this.selectAnswer(choice, button));
-                answersContainer.appendChild(button);
-            });
+            
+            if (question.isMultipleChoice) {
+                // Ajouter un bouton de validation
+                const validateBtn = document.createElement('button');
+                validateBtn.className = 'validate-btn';
+                validateBtn.textContent = 'Valider mes réponses';
+                validateBtn.disabled = true;
+                validateBtn.addEventListener('click', () => this.validateMultipleChoice());
+                
+                question.choices.forEach((choice, index) => {
+                    const choiceContainer = document.createElement('div');
+                    choiceContainer.className = 'choice-container';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `choice-${index}`;
+                    checkbox.value = choice;
+                    checkbox.addEventListener('change', () => this.updateValidateButton(validateBtn));
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `choice-${index}`;
+                    label.textContent = choice;
+                    
+                    choiceContainer.appendChild(checkbox);
+                    choiceContainer.appendChild(label);
+                    answersContainer.appendChild(choiceContainer);
+                });
+                
+                answersContainer.appendChild(validateBtn);
+            } else {
+                // Boutons simples pour choix unique (si jamais)
+                question.choices.forEach((choice, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'answer-btn';
+                    button.textContent = choice;
+                    button.addEventListener('click', () => this.selectAnswer([choice], button));
+                    answersContainer.appendChild(button);
+                });
+            }
         }
     }
 
-    // Sélectionner une réponse
-    selectAnswer(answer, buttonElement) {
-        if (quizEngine.isAnswering) return;
-
-        const result = quizEngine.answerQuestion(answer);
+    // Sélectionner une réponse (pour choix unique - rarement utilisé maintenant)
+    selectAnswer(answers, buttonElement) {
+        const result = quizEngine.answerQuestion(answers);
         if (!result) return;
 
-        // Désactiver tous les boutons
-        const allButtons = document.querySelectorAll('.answer-btn');
-        allButtons.forEach(btn => {
-            btn.classList.add('disabled');
-            btn.style.pointerEvents = 'none';
+        this.showAnswerFeedback(result);
+        this.proceedToNextQuestion();
+    }
+
+    // Valider les choix multiples
+    validateMultipleChoice() {
+        const checkboxes = document.querySelectorAll('#answers-container input[type="checkbox"]:checked');
+        const selectedAnswers = Array.from(checkboxes).map(cb => cb.value);
+        
+        if (selectedAnswers.length === 0) {
+            alert('Veuillez sélectionner au moins une réponse.');
+            return;
+        }
+
+        const result = quizEngine.answerQuestion(selectedAnswers);
+        if (!result) return;
+
+        this.showAnswerFeedback(result);
+        this.proceedToNextQuestion();
+    }
+
+    // Mettre à jour le bouton de validation selon les sélections
+    updateValidateButton(validateBtn) {
+        const checkedBoxes = document.querySelectorAll('#answers-container input[type="checkbox"]:checked');
+        validateBtn.disabled = checkedBoxes.length === 0;
+    }
+
+    // Afficher le feedback de la réponse
+    showAnswerFeedback(result) {
+        // Désactiver toutes les interactions
+        const checkboxes = document.querySelectorAll('#answers-container input[type="checkbox"]');
+        const validateBtn = document.querySelector('.validate-btn');
+        
+        checkboxes.forEach(cb => cb.disabled = true);
+        if (validateBtn) validateBtn.disabled = true;
+
+        // Marquer les réponses correctes et incorrectes
+        checkboxes.forEach(cb => {
+            const container = cb.parentElement;
+            if (result.correctAnswers.includes(cb.value)) {
+                container.classList.add('correct');
+            }
+            if (result.selectedAnswers.includes(cb.value) && !result.correctAnswers.includes(cb.value)) {
+                container.classList.add('incorrect');
+            }
         });
 
-        // Marquer la réponse sélectionnée
+        // Son de feedback
         if (result.isCorrect) {
-            buttonElement.classList.add('correct');
             soundManager.playSuccess();
         } else {
-            buttonElement.classList.add('incorrect');
-            // Marquer la bonne réponse
-            allButtons.forEach(btn => {
-                if (btn.textContent === result.correctAnswer) {
-                    btn.classList.add('correct');
-                }
-            });
             soundManager.playError();
         }
 
         // Mettre à jour le score
         this.updateQuizProgress();
+    }
 
-        // Passer à la question suivante après un délai
+    // Passer à la question suivante
+    proceedToNextQuestion() {
         setTimeout(() => {
             const nextQuestion = quizEngine.nextQuestion();
             this.displayQuestion(nextQuestion);
-            
-            // Réactiver les boutons pour la prochaine question
-            setTimeout(() => {
-                const newButtons = document.querySelectorAll('.answer-btn');
-                newButtons.forEach(btn => {
-                    btn.style.pointerEvents = 'auto';
-                });
-            }, 100);
-        }, 1500);
+        }, 2000);
     }
 
     // Mettre à jour la progression du quiz

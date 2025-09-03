@@ -68,27 +68,27 @@ class QuizEngine {
         const selectedProducts = getRandomProducts(products, count);
         const allFlavors = getAllFlavors();
 
-        // Générer les questions - une question pour chaque arôme de chaque produit
+        // Générer les questions - une question par produit pour tester tous ses arômes
         let questions = [];
         let questionId = 1;
         
         selectedProducts.forEach(product => {
-            // Créer une question pour chaque arôme du produit
-            product.flavors.forEach(flavor => {
-                // Générer les choix de réponses
-                const answerChoices = generateAnswerChoices(flavor, allFlavors, 4);
+            // Déterminer le nombre de choix selon le nombre d'arômes du produit
+            const choiceCount = product.flavors.length === 1 ? 4 : Math.max(6, product.flavors.length + 2);
+            
+            // Générer les choix d'arômes (corrects + distracteurs)
+            const flavorChoices = this.generateFlavorChoices(product.flavors, allFlavors, choiceCount);
 
-                questions.push({
-                    id: questionId++,
-                    product: product,
-                    question: `Quel e-liquide contient l'arôme "${flavor}" ?`,
-                    correctAnswer: product.name,
-                    targetFlavor: flavor, // L'arôme qu'on teste
-                    choices: this.generateProductChoices(product, selectedProducts, 4),
-                    answered: false,
-                    selectedAnswer: null,
-                    isCorrect: false
-                });
+            questions.push({
+                id: questionId++,
+                product: product,
+                question: `Quels arômes sont dans ${product.name} ?`,
+                correctAnswers: [...product.flavors], // Tous les arômes corrects
+                choices: flavorChoices,
+                isMultipleChoice: true,
+                answered: false,
+                selectedAnswers: [], // Tableau des réponses sélectionnées
+                isCorrect: false
             });
         });
 
@@ -98,16 +98,16 @@ class QuizEngine {
         return questions;
     }
 
-    // Générer des choix de produits pour les questions
-    generateProductChoices(correctProduct, allProducts, count = 4) {
-        const choices = [correctProduct.name];
-        const otherProducts = allProducts.filter(p => p.name !== correctProduct.name);
+    // Générer des choix d'arômes pour les questions à choix multiples
+    generateFlavorChoices(correctFlavors, allFlavors, count = 6) {
+        const choices = [...correctFlavors]; // Commencer avec tous les arômes corrects
+        const otherFlavors = allFlavors.filter(flavor => !correctFlavors.includes(flavor));
         
-        // Ajouter des produits aléatoirement
-        while (choices.length < count && otherProducts.length > 0) {
-            const randomIndex = Math.floor(Math.random() * otherProducts.length);
-            const product = otherProducts.splice(randomIndex, 1)[0];
-            choices.push(product.name);
+        // Ajouter des arômes distracteurs aléatoirement
+        while (choices.length < count && otherFlavors.length > 0) {
+            const randomIndex = Math.floor(Math.random() * otherFlavors.length);
+            const flavor = otherFlavors.splice(randomIndex, 1)[0];
+            choices.push(flavor);
         }
         
         // Mélanger les choix
@@ -122,21 +122,23 @@ class QuizEngine {
         return this.questions[this.currentQuestionIndex];
     }
 
-    // Répondre à une question
-    answerQuestion(selectedAnswer) {
-        if (this.isAnswering) {
-            return null; // Éviter les réponses multiples
-        }
-
+    // Répondre à une question (choix multiples)
+    answerQuestion(selectedAnswers) {
         const currentQuestion = this.getCurrentQuestion();
-        if (!currentQuestion) {
+        if (!currentQuestion || currentQuestion.answered) {
             return null;
         }
 
-        this.isAnswering = true;
         currentQuestion.answered = true;
-        currentQuestion.selectedAnswer = selectedAnswer;
-        currentQuestion.isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+        currentQuestion.selectedAnswers = Array.isArray(selectedAnswers) ? selectedAnswers : [selectedAnswers];
+        
+        // Vérifier si toutes les bonnes réponses sont sélectionnées et aucune mauvaise
+        const correctSet = new Set(currentQuestion.correctAnswers);
+        const selectedSet = new Set(currentQuestion.selectedAnswers);
+        
+        currentQuestion.isCorrect = 
+            correctSet.size === selectedSet.size && 
+            [...correctSet].every(answer => selectedSet.has(answer));
 
         if (currentQuestion.isCorrect) {
             this.score++;
@@ -144,8 +146,8 @@ class QuizEngine {
 
         return {
             isCorrect: currentQuestion.isCorrect,
-            correctAnswer: currentQuestion.correctAnswer,
-            selectedAnswer: selectedAnswer,
+            correctAnswers: currentQuestion.correctAnswers,
+            selectedAnswers: currentQuestion.selectedAnswers,
             explanation: this.getAnswerExplanation(currentQuestion)
         };
     }
@@ -200,12 +202,25 @@ class QuizEngine {
     // Obtenir une explication pour la réponse
     getAnswerExplanation(question) {
         const product = question.product;
-        const flavors = product.flavors.join(', ');
+        const correctFlavors = question.correctAnswers.join(', ');
+        const selectedFlavors = question.selectedAnswers.join(', ');
         
         if (question.isCorrect) {
-            return `Correct ! L'arôme "${question.targetFlavor}" est bien dans ${product.name}. Tous ses arômes : ${flavors}`;
+            return `Correct ! ${product.name} contient bien : ${correctFlavors}`;
         } else {
-            return `La bonne réponse était "${question.correctAnswer}". L'arôme "${question.targetFlavor}" est dans ${product.name}. Tous ses arômes : ${flavors}`;
+            const missing = question.correctAnswers.filter(f => !question.selectedAnswers.includes(f));
+            const extra = question.selectedAnswers.filter(f => !question.correctAnswers.includes(f));
+            
+            let explanation = `Les bons arômes de ${product.name} sont : ${correctFlavors}. `;
+            
+            if (missing.length > 0) {
+                explanation += `Vous avez oublié : ${missing.join(', ')}. `;
+            }
+            if (extra.length > 0) {
+                explanation += `En trop : ${extra.join(', ')}.`;
+            }
+            
+            return explanation;
         }
     }
 

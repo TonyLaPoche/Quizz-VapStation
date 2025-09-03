@@ -247,6 +247,72 @@ body {
     opacity: 0.7;
 }
 
+/* Choix multiples */
+.choice-container {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.choice-container:hover {
+    border-color: #2563eb;
+    background: #f0f9ff;
+}
+
+.choice-container.correct {
+    background: #10b981;
+    color: white;
+    border-color: #059669;
+}
+
+.choice-container.incorrect {
+    background: #ef4444;
+    color: white;
+    border-color: #dc2626;
+}
+
+.choice-container input[type="checkbox"] {
+    margin-right: 1rem;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.choice-container label {
+    flex: 1;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.validate-btn {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+}
+
+.validate-btn:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.validate-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
 /* Résultats */
 .results-content {
     text-align: center;
