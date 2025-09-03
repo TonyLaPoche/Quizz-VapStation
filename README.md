@@ -4,13 +4,14 @@ Une application mobile-first pour réviser les e-liquides des gammes Vap Station
 
 ## 📱 Fonctionnalités
 
-- **Quiz par gamme** : Révisez spécifiquement Savage, Inca, Pupille ou la 4ème gamme
+- **Quiz par gamme** : Révisez spécifiquement Savage, Inca, Pupille ou Elfes
 - **Quiz mélangé** : Questions aléatoires de plusieurs gammes
 - **Quiz complet** : Toutes les gammes ensemble
 - **Historique** : Suivi de vos performances et progression
 - **Scores** : Système de points avec pourcentages
 - **Hors ligne** : Fonctionne sans connexion internet (PWA)
 - **Mobile-first** : Interface optimisée pour smartphones
+- **Données réelles** : Basé sur les vrais produits du site vapstation.com
 
 ## 🎮 Comment jouer
 
@@ -28,17 +29,17 @@ Une application mobile-first pour réviser les e-liquides des gammes Vap Station
 
 ## 🗂️ Gammes disponibles
 
-### 🔥 Savage
-E-liquides intenses et puissants avec des saveurs marquées.
+### 🔥 Savage (6 produits)
+E-liquides intenses et puissants : Aquila, Baguera, Gazelia, King, Mangabey, Venom.
 
-### 🌿 Inca  
-E-liquides premium aux saveurs complexes et raffinées.
+### 🌿 Inca (7 produits)  
+E-liquides premium aux saveurs complexes : Amaru, Chacana, Cuzko, Killa, Manco, Maya, Pacha.
 
-### 👁️ Pupille
-E-liquides surprenants et innovants avec des mélanges uniques.
+### 👁️ Pupille (6 produits)
+E-liquides surprenants et innovants : Dulce, Iris, Luna, Nero, Opale, Saphir.
 
-### ❓ 4ème Gamme
-Gamme mystère à identifier et compléter.
+### 🧝‍♀️ Elfes (6 produits)
+E-liquides magiques et envoûtants : Lyra, Nayla, Ragnar, Ravena, Sylas, Theron.
 
 ## 💾 Stockage local
 

@@ -1,4 +1,4 @@
-// Base de données des e-liquides Vap Station
+// Base de données des e-liquides Vap Station (données réelles du site vapstation.com)
 const vapStationData = {
     // Gamme Savage - E-liquides intenses et puissants
     savage: {
@@ -7,36 +7,28 @@ const vapStationData = {
         color: "#ef4444",
         products: [
             {
-                name: "Savage Mango",
-                flavors: ["Mangue", "Fruits tropicaux", "Sucré"]
+                name: "Aquila",
+                flavors: ["Grenade", "Limonade", "Rafraîchissant", "Estival"]
             },
             {
-                name: "Savage Berry",
-                flavors: ["Fruits rouges", "Myrtille", "Framboise", "Acidulé"]
+                name: "Baguera",
+                flavors: ["Fraîcheur polaire", "Givrée", "Menthe glaciale", "Grand Nord"]
             },
             {
-                name: "Savage Mint",
-                flavors: ["Menthe glaciale", "Fraîcheur intense", "Eucalyptus"]
+                name: "Gazelia",
+                flavors: ["Pêche sucrée", "Poire juteuse", "Kiwi acidulé", "Fruités"]
             },
             {
-                name: "Savage Apple",
-                flavors: ["Pomme verte", "Acidulé", "Croquant"]
+                name: "King",
+                flavors: ["Amande grillée", "Riche", "Profond", "Gourmand"]
             },
             {
-                name: "Savage Grape",
-                flavors: ["Raisin", "Fruits noirs", "Juteux"]
+                name: "Mangabey",
+                flavors: ["Mangue", "Papaye", "Ananas", "Tropical"]
             },
             {
-                name: "Savage Watermelon",
-                flavors: ["Pastèque", "Rafraîchissant", "Été"]
-            },
-            {
-                name: "Savage Cola",
-                flavors: ["Cola", "Pétillant", "Caramel", "Vanille"]
-            },
-            {
-                name: "Savage Ice",
-                flavors: ["Menthe polaire", "Fraîcheur extrême", "Cristallin"]
+                name: "Venom",
+                flavors: ["Pastèque fraîche", "Kiwi savoureux", "Juteux", "Sucré"]
             }
         ]
     },
@@ -48,36 +40,32 @@ const vapStationData = {
         color: "#059669",
         products: [
             {
-                name: "Inca Gold",
-                flavors: ["Tabac blond", "Caramel", "Vanille", "Noisette"]
+                name: "Amaru",
+                flavors: ["Framboise", "Framboise bleue", "Duo exceptionnel", "Sucré"]
             },
             {
-                name: "Inca Royal",
-                flavors: ["Tabac brun", "Miel", "Épices douces", "Boisé"]
+                name: "Chacana",
+                flavors: ["Tabac blond", "Neutre", "Classic", "Équilibré"]
             },
             {
-                name: "Inca Forest",
-                flavors: ["Fruits des bois", "Cassis", "Mûre", "Terreux"]
+                name: "Cuzko",
+                flavors: ["Triple citron", "Agrumes", "Acidulé", "Intense"]
             },
             {
-                name: "Inca Sunset",
-                flavors: ["Pêche", "Abricot", "Mangue", "Crémeux"]
+                name: "Killa",
+                flavors: ["Fruit du dragon violet", "Exotique", "Délicat", "Unique"]
             },
             {
-                name: "Inca Storm",
-                flavors: ["Menthe", "Eucalyptus", "Pin", "Fraîcheur"]
+                name: "Manco",
+                flavors: ["Bonbons à la pêche", "Sucré", "Gourmand", "Intense"]
             },
             {
-                name: "Inca Dream",
-                flavors: ["Vanille", "Crème", "Biscuit", "Douceur"]
+                name: "Maya",
+                flavors: ["Cassis", "Raisin blanc", "Fruits rouges", "Fraîcheur"]
             },
             {
-                name: "Inca Fire",
-                flavors: ["Cannelle", "Épices", "Chaleur", "Piquant"]
-            },
-            {
-                name: "Inca Ocean",
-                flavors: ["Fruits de mer", "Iodé", "Salé", "Minéral"]
+                name: "Pacha",
+                flavors: ["Fruit du dragon frais", "Fraise juteuse", "Délicat", "Sucré"]
             }
         ]
     },
@@ -89,61 +77,61 @@ const vapStationData = {
         color: "#7c3aed",
         products: [
             {
-                name: "Pupille Vision",
-                flavors: ["Fruits exotiques", "Passion", "Litchi", "Floral"]
+                name: "Dulce",
+                flavors: ["Crème brûlée", "Vanille", "Dessert", "Gourmand"]
             },
             {
-                name: "Pupille Focus",
-                flavors: ["Café", "Chocolat", "Caramel", "Intense"]
+                name: "Iris",
+                flavors: ["Fruits rouges", "Acidulé", "Pétillant", "Vivace"]
             },
             {
-                name: "Pupille Illusion",
-                flavors: ["Bonbon", "Fruité", "Acidulé", "Coloré"]
+                name: "Luna",
+                flavors: ["Myrtille", "Cassis", "Fruits noirs", "Intense"]
             },
             {
-                name: "Pupille Mystery",
-                flavors: ["Saveur mystère", "Complexe", "Surprenant", "Unique"]
+                name: "Nero",
+                flavors: ["Café", "Chocolat noir", "Amer", "Puissant"]
             },
             {
-                name: "Pupille Clarity",
-                flavors: ["Menthe douce", "Thé vert", "Zen", "Apaisant"]
+                name: "Opale",
+                flavors: ["Menthe douce", "Fraîcheur", "Subtile", "Rafraîchissant"]
             },
             {
-                name: "Pupille Spark",
-                flavors: ["Agrumes", "Citron", "Orange", "Pétillant"]
-            },
-            {
-                name: "Pupille Depth",
-                flavors: ["Fruits noirs", "Cassis", "Profond", "Intense"]
-            },
-            {
-                name: "Pupille Bright",
-                flavors: ["Fruits jaunes", "Ananas", "Mangue", "Lumineux"]
+                name: "Saphir",
+                flavors: ["Fruits exotiques", "Passion", "Mangue", "Tropical"]
             }
         ]
     },
 
-    // 4ème Gamme - À compléter quand vous vous souviendrez du nom
-    mystery: {
-        name: "Gamme Mystère",
-        icon: "❓",
-        color: "#f59e0b",
+    // Gamme Elfes - E-liquides magiques et envoûtants
+    elfes: {
+        name: "Elfes",
+        icon: "🧝‍♀️",
+        color: "#10b981",
         products: [
             {
-                name: "Produit Mystère 1",
-                flavors: ["Saveur à définir", "Arôme inconnu", "À découvrir"]
+                name: "Lyra",
+                flavors: ["Fruits rouges", "Mélange délicat", "Gourmand", "Équilibré"]
             },
             {
-                name: "Produit Mystère 2",
-                flavors: ["Saveur à définir", "Arôme inconnu", "À découvrir"]
+                name: "Nayla",
+                flavors: ["Cassis", "Mangue", "Exotique", "Fruité"]
             },
             {
-                name: "Produit Mystère 3",
-                flavors: ["Saveur à définir", "Arôme inconnu", "À découvrir"]
+                name: "Ragnar",
+                flavors: ["Fraises des bois", "Framboises", "Mûres", "Cassis", "Fraîcheur"]
             },
             {
-                name: "Produit Mystère 4",
-                flavors: ["Saveur à définir", "Arôme inconnu", "À découvrir"]
+                name: "Ravena",
+                flavors: ["Myrtille", "Mûre", "Groseille", "Fruité intense"]
+            },
+            {
+                name: "Sylas",
+                flavors: ["Myrtille", "Mûre", "Groseille", "Fraîcheur"]
+            },
+            {
+                name: "Theron",
+                flavors: ["Pomme verte", "Acidulé", "Croquant", "Rafraîchissant"]
             }
         ]
     }

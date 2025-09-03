@@ -43,12 +43,12 @@ class QuizEngine {
             case 'savage':
             case 'inca':
             case 'pupille':
-            case 'mystery':
+            case 'elfes':
                 products = getProductsByRange(mode);
                 break;
             case 'mixed':
-                // Mélanger toutes les gammes sauf mystery
-                const ranges = ['savage', 'inca', 'pupille'];
+                // Mélanger toutes les gammes
+                const ranges = ['savage', 'inca', 'pupille', 'elfes'];
                 ranges.forEach(range => {
                     products = products.concat(getProductsByRange(range));
                 });
@@ -165,7 +165,7 @@ class QuizEngine {
             'savage': 'Gamme Savage',
             'inca': 'Gamme Inca',
             'pupille': 'Gamme Pupille',
-            'mystery': '4ème Gamme',
+            'elfes': 'Gamme Elfes',
             'mixed': 'Quiz Mélangé',
             'all': 'Toutes les Gammes'
         };
