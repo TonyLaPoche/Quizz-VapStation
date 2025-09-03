@@ -263,18 +263,17 @@ body {
 }
 
 .score-circle {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 120px;
     height: 120px;
     border-radius: 50%;
     background: linear-gradient(135deg, #10b981, #059669);
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin: 0 auto 1rem;
 }
 
 .score-percentage {
