@@ -68,25 +68,50 @@ class QuizEngine {
         const selectedProducts = getRandomProducts(products, count);
         const allFlavors = getAllFlavors();
 
-        // Générer les questions
-        return selectedProducts.map((product, index) => {
-            // Choisir un arôme principal aléatoirement
-            const correctFlavor = product.flavors[Math.floor(Math.random() * product.flavors.length)];
-            
-            // Générer les choix de réponses
-            const answerChoices = generateAnswerChoices(correctFlavor, allFlavors, 4);
+        // Générer les questions - une question pour chaque arôme de chaque produit
+        let questions = [];
+        let questionId = 1;
+        
+        selectedProducts.forEach(product => {
+            // Créer une question pour chaque arôme du produit
+            product.flavors.forEach(flavor => {
+                // Générer les choix de réponses
+                const answerChoices = generateAnswerChoices(flavor, allFlavors, 4);
 
-            return {
-                id: index + 1,
-                product: product,
-                question: "Quel est l'arôme principal de ce e-liquide ?",
-                correctAnswer: correctFlavor,
-                choices: answerChoices,
-                answered: false,
-                selectedAnswer: null,
-                isCorrect: false
-            };
+                questions.push({
+                    id: questionId++,
+                    product: product,
+                    question: `Quel e-liquide contient l'arôme "${flavor}" ?`,
+                    correctAnswer: product.name,
+                    targetFlavor: flavor, // L'arôme qu'on teste
+                    choices: this.generateProductChoices(product, selectedProducts, 4),
+                    answered: false,
+                    selectedAnswer: null,
+                    isCorrect: false
+                });
+            });
         });
+
+        // Mélanger les questions et limiter au nombre demandé
+        questions = questions.sort(() => 0.5 - Math.random()).slice(0, count);
+        
+        return questions;
+    }
+
+    // Générer des choix de produits pour les questions
+    generateProductChoices(correctProduct, allProducts, count = 4) {
+        const choices = [correctProduct.name];
+        const otherProducts = allProducts.filter(p => p.name !== correctProduct.name);
+        
+        // Ajouter des produits aléatoirement
+        while (choices.length < count && otherProducts.length > 0) {
+            const randomIndex = Math.floor(Math.random() * otherProducts.length);
+            const product = otherProducts.splice(randomIndex, 1)[0];
+            choices.push(product.name);
+        }
+        
+        // Mélanger les choix
+        return choices.sort(() => 0.5 - Math.random());
     }
 
     // Obtenir la question actuelle
@@ -178,9 +203,9 @@ class QuizEngine {
         const flavors = product.flavors.join(', ');
         
         if (question.isCorrect) {
-            return `Correct ! ${product.name} contient bien : ${flavors}`;
+            return `Correct ! L'arôme "${question.targetFlavor}" est bien dans ${product.name}. Tous ses arômes : ${flavors}`;
         } else {
-            return `La bonne réponse était "${question.correctAnswer}". ${product.name} contient : ${flavors}`;
+            return `La bonne réponse était "${question.correctAnswer}". L'arôme "${question.targetFlavor}" est dans ${product.name}. Tous ses arômes : ${flavors}`;
         }
     }
 

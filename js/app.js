@@ -86,7 +86,9 @@ class VapQuizApp {
         const answersContainer = document.getElementById('answers-container');
 
         if (questionText) questionText.textContent = question.question;
-        if (productName) productName.textContent = question.product.name;
+        
+        // Afficher l'arôme testé au lieu du nom du produit
+        if (productName) productName.textContent = question.targetFlavor || question.product.name;
         
         if (productRange) {
             if (question.product.range) {

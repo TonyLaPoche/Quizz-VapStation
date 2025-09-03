@@ -7,28 +7,37 @@ const vapStationData = {
         color: "#ef4444",
         products: [
             {
-                name: "Aquila",
-                flavors: ["Grenade", "Limonade", "Rafraîchissant", "Estival"]
-            },
-            {
-                name: "Baguera",
-                flavors: ["Fraîcheur polaire", "Givrée", "Menthe glaciale", "Grand Nord"]
-            },
-            {
-                name: "Gazelia",
-                flavors: ["Pêche sucrée", "Poire juteuse", "Kiwi acidulé", "Fruités"]
+                name: "Rhino",
+                flavors: ["Pitaya", "Cassis"]
             },
             {
                 name: "King",
-                flavors: ["Amande grillée", "Riche", "Profond", "Gourmand"]
+                flavors: ["Amande cremeuse"]
             },
             {
+                name: "Aquila",
+                flavors: ["Limonade grenade", "Frais"]
+            },
+            {
+                name: "Baghera",
+                flavors: ["Menthe givrée"]
+            },
+            {
+                name: "Zephyros",
+                flavors: ["Menthe chlorophile"]
+            },
+            {
+                name: "Gazelia",
+                flavors: ["Pêche", "Poire", "Kiwi"]
+            },
+            
+            {
                 name: "Mangabey",
-                flavors: ["Mangue", "Papaye", "Ananas", "Tropical"]
+                flavors: ["Mangue", "Papaye", "Cassis glacé"]
             },
             {
                 name: "Venom",
-                flavors: ["Pastèque fraîche", "Kiwi savoureux", "Juteux", "Sucré"]
+                flavors: ["Pastèque", "Kiwi glacée"]
             }
         ]
     },
@@ -40,32 +49,36 @@ const vapStationData = {
         color: "#059669",
         products: [
             {
-                name: "Amaru",
-                flavors: ["Framboise", "Framboise bleue", "Duo exceptionnel", "Sucré"]
-            },
-            {
-                name: "Chacana",
-                flavors: ["Tabac blond", "Neutre", "Classic", "Équilibré"]
-            },
-            {
-                name: "Cuzko",
-                flavors: ["Triple citron", "Agrumes", "Acidulé", "Intense"]
-            },
-            {
-                name: "Killa",
-                flavors: ["Fruit du dragon violet", "Exotique", "Délicat", "Unique"]
-            },
-            {
-                name: "Manco",
-                flavors: ["Bonbons à la pêche", "Sucré", "Gourmand", "Intense"]
+                name: "Saca",
+                flavors: ["Fraises"]
             },
             {
                 name: "Maya",
-                flavors: ["Cassis", "Raisin blanc", "Fruits rouges", "Fraîcheur"]
+                flavors: ["Cassis", "Raisin blanc", "Fruit rouges frais"]
+            },
+            {
+                name: "Amaru",
+                flavors: ["Framboise bleu"]
+            },
+            {
+                name: "Supay",
+                flavors: ["Pomme", "Poire", "Fruit du dragon"]
+            },
+            {
+                name: "Manco",
+                flavors: ["Ice Tea pêche"]
+            },
+            {
+                name: "Cuzco",
+                flavors: ["Triple Citron"]
             },
             {
                 name: "Pacha",
-                flavors: ["Fruit du dragon frais", "Fraise juteuse", "Délicat", "Sucré"]
+                flavors: ["Fruit du dragon frais", "Fraise"]
+            },
+            {
+                name: "Killa",
+                flavors: ["Fruit du dragon violet"]
             }
         ]
     },
@@ -78,27 +91,19 @@ const vapStationData = {
         products: [
             {
                 name: "Dulce",
-                flavors: ["Crème brûlée", "Vanille", "Dessert", "Gourmand"]
+                flavors: ["Crème brûlée", "Vanille", "Caramel"]
             },
             {
-                name: "Iris",
-                flavors: ["Fruits rouges", "Acidulé", "Pétillant", "Vivace"]
+                name: "Unico",
+                flavors: ["Marshmallow"]
             },
             {
-                name: "Luna",
-                flavors: ["Myrtille", "Cassis", "Fruits noirs", "Intense"]
+                name: "Napoli",
+                flavors: ["Tarte au café"]
             },
             {
-                name: "Nero",
-                flavors: ["Café", "Chocolat noir", "Amer", "Puissant"]
-            },
-            {
-                name: "Opale",
-                flavors: ["Menthe douce", "Fraîcheur", "Subtile", "Rafraîchissant"]
-            },
-            {
-                name: "Saphir",
-                flavors: ["Fruits exotiques", "Passion", "Mangue", "Tropical"]
+                name: "Hazel",
+                flavors: ["Classic", "Neutre", "Tabac", "Fruit à coques"]
             }
         ]
     },
@@ -111,27 +116,19 @@ const vapStationData = {
         products: [
             {
                 name: "Lyra",
-                flavors: ["Fruits rouges", "Mélange délicat", "Gourmand", "Équilibré"]
+                flavors: ["Fruits rouges"]
             },
             {
                 name: "Nayla",
-                flavors: ["Cassis", "Mangue", "Exotique", "Fruité"]
+                flavors: ["Cassis", "Mangue"]
             },
             {
                 name: "Ragnar",
-                flavors: ["Fraises des bois", "Framboises", "Mûres", "Cassis", "Fraîcheur"]
-            },
-            {
-                name: "Ravena",
-                flavors: ["Myrtille", "Mûre", "Groseille", "Fruité intense"]
+                flavors: ["Fraises", "Framboises", "frais", "Cassis"]
             },
             {
                 name: "Sylas",
                 flavors: ["Myrtille", "Mûre", "Groseille", "Fraîcheur"]
-            },
-            {
-                name: "Theron",
-                flavors: ["Pomme verte", "Acidulé", "Croquant", "Rafraîchissant"]
             }
         ]
     }
