@@ -103,7 +103,7 @@ const vapStationData = {
             },
             {
                 name: "Hazel",
-                flavors: ["Classic", "Neutre", "Tabac", "Fruit à coques"]
+                flavors: ["Classic", "Neutre", "Tabac"]
             }
         ]
     },
@@ -128,7 +128,7 @@ const vapStationData = {
             },
             {
                 name: "Sylas",
-                flavors: ["Myrtille", "Mûre", "Groseille", "Fraîcheur"]
+                flavors: ["Myrtille", "Mûre", "Groseille", "frais"]
             }
         ]
     }
