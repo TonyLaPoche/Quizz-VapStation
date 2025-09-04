@@ -292,6 +292,9 @@ class VapQuizApp {
         if (averageScore) averageScore.textContent = stats.averageScore + '%';
         if (bestScore) bestScore.textContent = stats.bestScore + '%';
 
+        // Statistiques par gamme
+        this.updateRangeStats(stats.rangeStats);
+
         // Liste de l'historique
         const historyList = document.getElementById('history-list');
         if (historyList) {
@@ -333,6 +336,50 @@ class VapQuizApp {
                 historyList.appendChild(historyItem);
             });
         }
+    }
+
+    // Mettre à jour l'affichage des statistiques par gamme
+    updateRangeStats(rangeStats) {
+        const rangeStatsGrid = document.getElementById('range-stats-grid');
+        const rangeStatsSection = document.getElementById('range-stats');
+        
+        if (!rangeStatsGrid) return;
+
+        // Masquer la section si aucune donnée
+        if (!rangeStats || Object.keys(rangeStats).length === 0) {
+            if (rangeStatsSection) rangeStatsSection.style.display = 'none';
+            return;
+        }
+
+        // Afficher la section
+        if (rangeStatsSection) rangeStatsSection.style.display = 'block';
+
+        // Vider le contenu existant
+        rangeStatsGrid.innerHTML = '';
+
+        // Créer les statistiques pour chaque gamme
+        Object.keys(rangeStats).forEach(rangeKey => {
+            const rangeData = rangeStats[rangeKey];
+            
+            const rangeStatItem = document.createElement('div');
+            rangeStatItem.className = 'range-stat-item';
+            rangeStatItem.style.borderLeftColor = rangeData.color;
+
+            rangeStatItem.innerHTML = `
+                <div class="range-stat-header">
+                    <span class="range-stat-icon">${rangeData.icon}</span>
+                    <span>${rangeData.name}</span>
+                </div>
+                <div class="range-stat-percentage" style="color: ${rangeData.color}">
+                    ${rangeData.averageScore}%
+                </div>
+                <div class="range-stat-games">
+                    ${rangeData.games} quiz${rangeData.games > 1 ? 's' : ''}
+                </div>
+            `;
+
+            rangeStatsGrid.appendChild(rangeStatItem);
+        });
     }
 
     // Effacer l'historique

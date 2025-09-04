@@ -67,6 +67,7 @@ class LocalStorage {
             worstScore: Math.min(...history.map(result => result.percentage)),
             averageScore: 0,
             modeStats: {},
+            rangeStats: {}, // Nouvelles statistiques par gamme
             recentGames: history.slice(0, 10)
         };
 
@@ -98,6 +99,39 @@ class LocalStorage {
             modeStats.averageScore = Math.round((modeStats.totalScore / modeStats.totalQuestions) * 100);
         });
 
+        // Statistiques par gamme (pour les modes de gamme individuelle)
+        const rangeGames = history.filter(result => 
+            ['savage', 'inca', 'pupille', 'elfes'].includes(result.mode)
+        );
+        
+        rangeGames.forEach(result => {
+            const rangeName = result.mode;
+            if (!stats.rangeStats[rangeName]) {
+                stats.rangeStats[rangeName] = {
+                    name: this.getRangeDisplayName(rangeName),
+                    games: 0,
+                    totalScore: 0,
+                    totalQuestions: 0,
+                    bestScore: 0,
+                    averageScore: 0,
+                    icon: this.getRangeIcon(rangeName),
+                    color: this.getRangeColor(rangeName)
+                };
+            }
+
+            const rangeStats = stats.rangeStats[rangeName];
+            rangeStats.games++;
+            rangeStats.totalScore += result.score;
+            rangeStats.totalQuestions += result.totalQuestions;
+            rangeStats.bestScore = Math.max(rangeStats.bestScore, result.percentage);
+        });
+
+        // Calculer les moyennes par gamme
+        Object.keys(stats.rangeStats).forEach(range => {
+            const rangeStats = stats.rangeStats[range];
+            rangeStats.averageScore = Math.round((rangeStats.totalScore / rangeStats.totalQuestions) * 100);
+        });
+
         localStorage.setItem(this.STATS_KEY, JSON.stringify(stats));
     }
 
@@ -110,6 +144,7 @@ class LocalStorage {
                 averageScore: 0,
                 bestScore: 0,
                 modeStats: {},
+                rangeStats: {},
                 recentGames: []
             };
         } catch (error) {
@@ -119,9 +154,43 @@ class LocalStorage {
                 averageScore: 0,
                 bestScore: 0,
                 modeStats: {},
+                rangeStats: {},
                 recentGames: []
             };
         }
+    }
+
+    // Obtenir le nom d'affichage d'une gamme
+    getRangeDisplayName(rangeName) {
+        const rangeNames = {
+            'savage': 'Savage',
+            'inca': 'Inca',
+            'pupille': 'Pupille',
+            'elfes': 'Elfes'
+        };
+        return rangeNames[rangeName] || rangeName;
+    }
+
+    // Obtenir l'icône d'une gamme
+    getRangeIcon(rangeName) {
+        const rangeIcons = {
+            'savage': '🔥',
+            'inca': '🌿',
+            'pupille': '👁️',
+            'elfes': '🧝‍♀️'
+        };
+        return rangeIcons[rangeName] || '❓';
+    }
+
+    // Obtenir la couleur d'une gamme
+    getRangeColor(rangeName) {
+        const rangeColors = {
+            'savage': '#ef4444',
+            'inca': '#059669',
+            'pupille': '#7c3aed',
+            'elfes': '#10b981'
+        };
+        return rangeColors[rangeName] || '#6b7280';
     }
 
     // Sauvegarder les préférences utilisateur
