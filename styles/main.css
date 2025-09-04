@@ -18,6 +18,8 @@ body {
     min-height: 100vh;
     background: white;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 /* Header */
@@ -41,6 +43,7 @@ body {
 /* Main */
 .main {
     padding: 1rem;
+    flex: 1;
 }
 
 /* Screens */
@@ -479,4 +482,28 @@ body {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(135deg, #374151, #1f2937);
+    color: white;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    margin-top: auto;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.footer-content p:first-child {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.footer-subtitle {
+    opacity: 0.8;
+    font-size: 0.8rem !important;
 }
