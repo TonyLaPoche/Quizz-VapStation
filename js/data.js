@@ -136,7 +136,16 @@ const vapStationData = {
 
 // Fonction pour obtenir tous les produits d'une gamme
 function getProductsByRange(rangeName) {
-    return vapStationData[rangeName]?.products || [];
+    const range = vapStationData[rangeName];
+    if (!range) return [];
+    
+    return range.products.map(product => ({
+        ...product,
+        range: rangeName,
+        rangeName: range.name,
+        rangeIcon: range.icon,
+        rangeColor: range.color
+    }));
 }
 
 // Fonction pour obtenir tous les produits mélangés
