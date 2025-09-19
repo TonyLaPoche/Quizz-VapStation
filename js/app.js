@@ -63,7 +63,17 @@ class VapQuizApp {
     // Démarrer un quiz
     startQuiz(mode) {
         try {
-            const question = quizEngine.startQuiz(mode, 10);
+            // Adapter le nombre de questions selon le mode
+            let questionsCount = 10;
+            if (mode === 'all') {
+                // Pour "Toutes les Gammes", utiliser tous les produits disponibles
+                questionsCount = getAllProducts().length;
+            } else if (mode === 'mixed') {
+                // Pour "Quiz Mélangé", garder 10 questions (2-3 par gamme)
+                questionsCount = 10;
+            }
+            
+            const question = quizEngine.startQuiz(mode, questionsCount);
             screenManager.showScreen('quiz-screen');
             this.displayQuestion(question);
             this.updateQuizProgress();

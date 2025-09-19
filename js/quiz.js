@@ -47,13 +47,18 @@ class QuizEngine {
                 products = getProductsByRange(mode);
                 break;
             case 'mixed':
-                // Mélanger toutes les gammes
+                // Quiz mélangé : sélection équilibrée de chaque gamme (2-3 produits par gamme)
                 const ranges = ['savage', 'inca', 'pupille', 'elfes'];
                 ranges.forEach(range => {
-                    products = products.concat(getProductsByRange(range));
+                    const rangeProducts = getProductsByRange(range);
+                    // Prendre 2-3 produits aléatoirement de chaque gamme
+                    const productsPerRange = Math.min(3, Math.ceil(count / ranges.length));
+                    const selectedFromRange = getRandomProducts(rangeProducts, productsPerRange);
+                    products = products.concat(selectedFromRange);
                 });
                 break;
             case 'all':
+                // Toutes les gammes : TOUS les produits disponibles
                 products = getAllProducts();
                 break;
             default:
@@ -194,7 +199,7 @@ class QuizEngine {
             'pupille': 'Gamme Pupille',
             'elfes': 'Gamme Elfes',
             'mixed': 'Quiz Mélangé',
-            'all': 'Toutes les Gammes'
+            'all': 'Quiz Complet'
         };
         return modeNames[mode] || mode;
     }

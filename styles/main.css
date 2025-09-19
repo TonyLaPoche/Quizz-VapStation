@@ -79,6 +79,7 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 1rem;
+    flex-direction: row;
 }
 
 .mode-btn:hover {
@@ -102,6 +103,22 @@ body {
 
 .mode-title {
     font-weight: 600;
+}
+
+.mode-subtitle {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+.mode-btn.special .mode-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.mode-btn .mode-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 /* Boutons */
