@@ -28,6 +28,18 @@ class VapQuizApp {
             historyBtn.addEventListener('click', () => this.showHistory());
         }
 
+        // Bouton à propos
+        const aboutBtn = document.getElementById('about-btn');
+        if (aboutBtn) {
+            aboutBtn.addEventListener('click', () => this.showAbout());
+        }
+
+        // Bouton liste des produits
+        const productsBtn = document.getElementById('products-btn');
+        if (productsBtn) {
+            productsBtn.addEventListener('click', () => this.showProducts());
+        }
+
         // Boutons de navigation
         const backToHome = document.getElementById('back-to-home');
         if (backToHome) {
@@ -37,6 +49,16 @@ class VapQuizApp {
         const backFromHistory = document.getElementById('back-from-history');
         if (backFromHistory) {
             backFromHistory.addEventListener('click', () => this.showHome());
+        }
+
+        const backFromAbout = document.getElementById('back-from-about');
+        if (backFromAbout) {
+            backFromAbout.addEventListener('click', () => this.showHome());
+        }
+
+        const backFromProducts = document.getElementById('back-from-products');
+        if (backFromProducts) {
+            backFromProducts.addEventListener('click', () => this.showHome());
         }
 
         // Boutons de résultats
@@ -288,6 +310,17 @@ class VapQuizApp {
         this.updateHistoryDisplay();
     }
 
+    // Afficher la section À propos
+    showAbout() {
+        screenManager.showScreen('about-screen');
+    }
+
+    // Afficher la liste des produits
+    showProducts() {
+        screenManager.showScreen('products-screen');
+        this.updateProductsList();
+    }
+
     // Mettre à jour l'affichage de l'historique
     updateHistoryDisplay() {
         const stats = storage.getStats();
@@ -389,6 +422,55 @@ class VapQuizApp {
             `;
 
             rangeStatsGrid.appendChild(rangeStatItem);
+        });
+    }
+
+    // Mettre à jour l'affichage de la liste des produits
+    updateProductsList() {
+        const productsList = document.getElementById('products-list');
+        if (!productsList) return;
+
+        productsList.innerHTML = '';
+
+        // Parcourir chaque gamme
+        Object.keys(vapStationData).forEach(rangeKey => {
+            const range = vapStationData[rangeKey];
+            
+            const rangeSection = document.createElement('div');
+            rangeSection.className = 'range-section';
+
+            const rangeHeader = document.createElement('div');
+            rangeHeader.className = 'range-header';
+            rangeHeader.style.borderLeftColor = range.color;
+
+            rangeHeader.innerHTML = `
+                <span class="range-icon">${range.icon}</span>
+                <h3 class="range-title">${range.name}</h3>
+                <span class="range-count">${range.products.length} produits</span>
+            `;
+
+            const productsGrid = document.createElement('div');
+            productsGrid.className = 'products-grid';
+
+            range.products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.className = 'product-item';
+
+                const flavorTags = product.flavors.map(flavor => 
+                    `<span class="flavor-tag">${flavor}</span>`
+                ).join('');
+
+                productItem.innerHTML = `
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-flavors">${flavorTags}</div>
+                `;
+
+                productsGrid.appendChild(productItem);
+            });
+
+            rangeSection.appendChild(rangeHeader);
+            rangeSection.appendChild(productsGrid);
+            productsList.appendChild(rangeSection);
         });
     }
 

@@ -552,6 +552,151 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+/* À propos */
+.about-header, .products-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.about-header h2, .products-header h2 {
+    color: #374151;
+    margin-left: 1rem;
+}
+
+.about-content, .products-content {
+    padding: 0 0.5rem;
+}
+
+.about-section {
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about-section h3 {
+    color: #2563eb;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.about-section p {
+    color: #374151;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.about-section ul {
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.about-section li {
+    color: #374151;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.about-footer {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.about-footer p {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.about-signature {
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Liste des produits */
+.products-intro {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.products-intro p {
+    color: #374151;
+    text-align: center;
+    margin: 0;
+}
+
+.range-section {
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.range-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    border-left: 4px solid;
+    display: flex;
+    align-items: center;
+}
+
+.range-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.range-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.range-count {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-left: auto;
+}
+
+.products-grid {
+    padding: 1.5rem;
+    display: grid;
+    gap: 1rem;
+}
+
+.product-item {
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.product-name {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.product-flavors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.flavor-tag {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
 /* Footer */
 .footer {
     background: linear-gradient(135deg, #374151, #1f2937);

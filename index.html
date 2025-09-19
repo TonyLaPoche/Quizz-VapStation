@@ -62,6 +62,14 @@
                     <button class="secondary-btn" id="history-btn">
                         📊 Historique & Scores
                     </button>
+                    
+                    <button class="secondary-btn" id="about-btn">
+                        ℹ️ À propos
+                    </button>
+                    
+                    <button class="secondary-btn" id="products-btn">
+                        📋 Liste des Produits
+                    </button>
                 </div>
             </div>
 
@@ -147,6 +155,75 @@
                     </div>
                     
                     <button class="danger-btn" id="clear-history">🗑️ Effacer l'historique</button>
+                </div>
+            </div>
+
+            <!-- Écran À propos -->
+            <div id="about-screen" class="screen">
+                <div class="about-header">
+                    <button class="back-btn" id="back-from-about">← Retour</button>
+                    <h2>ℹ️ À propos</h2>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-section">
+                        <h3>🎯 Pourquoi ce projet ?</h3>
+                        <p>Ce quiz a été créé pour aider les professionnels et passionnés de la vape à maîtriser parfaitement le catalogue Vap Station.</p>
+                        
+                        <p>En tant que vendeur ou amateur éclairé, connaître précisément les arômes de chaque e-liquide est essentiel pour :</p>
+                        
+                        <ul>
+                            <li>🎯 <strong>Conseiller efficacement</strong> les clients</li>
+                            <li>🔍 <strong>Identifier rapidement</strong> les produits adaptés</li>
+                            <li>💡 <strong>Proposer des alternatives</strong> pertinentes</li>
+                            <li>🏆 <strong>Développer son expertise</strong> produit</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="about-section">
+                        <h3>🧪 Comment ça marche ?</h3>
+                        <p>L'application utilise un système de <strong>quiz à choix multiples</strong> où vous devez sélectionner tous les arômes corrects pour chaque produit.</p>
+                        
+                        <p>Différents modes sont disponibles :</p>
+                        <ul>
+                            <li><strong>Par gamme</strong> : Focus sur une gamme spécifique</li>
+                            <li><strong>Quiz mélangé</strong> : Sélection équilibrée (10 questions)</li>
+                            <li><strong>Quiz complet</strong> : Tous les produits (25 questions)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="about-section">
+                        <h3>📊 Suivi des progrès</h3>
+                        <p>Vos performances sont automatiquement sauvegardées localement :</p>
+                        <ul>
+                            <li>📈 <strong>Statistiques globales</strong> et par gamme</li>
+                            <li>📋 <strong>Historique détaillé</strong> des 50 derniers quiz</li>
+                            <li>🎯 <strong>Identification des points faibles</strong></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="about-footer">
+                        <p><strong>Bonne révision ! 🚀</strong></p>
+                        <p class="about-signature">Développé avec ❤️ pour la communauté vape</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Écran Liste des Produits -->
+            <div id="products-screen" class="screen">
+                <div class="products-header">
+                    <button class="back-btn" id="back-from-products">← Retour</button>
+                    <h2>📋 Liste des Produits</h2>
+                </div>
+                
+                <div class="products-content">
+                    <div class="products-intro">
+                        <p>Catalogue complet des e-liquides Vap Station avec leurs arômes détaillés :</p>
+                    </div>
+                    
+                    <div id="products-list">
+                        <!-- La liste sera générée dynamiquement -->
+                    </div>
                 </div>
             </div>
         </main>
