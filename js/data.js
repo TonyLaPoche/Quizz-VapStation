@@ -1,4 +1,4 @@
-// Base de données des e-liquides Vap Station (données réelles du site vapstation.com)
+// Base de données des e-liquides Vap'Station (données réelles du site vapstation.com)
 const vapStationData = {
     // Gamme Savage - E-liquides intenses et puissants
     savage: {

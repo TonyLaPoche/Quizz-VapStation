@@ -1,6 +1,6 @@
-# 🧪 Vap Station Quiz
+# 🧪 Vap'Station Quiz
 
-Une application mobile-first pour réviser les e-liquides des gammes Vap Station.
+Une application mobile-first pour réviser les e-liquides des gammes Vap'Station.
 
 ## 📱 Fonctionnalités
 
@@ -107,7 +107,7 @@ Pour ajouter des produits ou corriger des informations :
 
 ## 📄 Licence
 
-Ce projet est libre d'utilisation pour l'apprentissage et la révision des produits Vap Station.
+Ce projet est libre d'utilisation pour l'apprentissage et la révision des produits Vap'Station.
 
 ---
 
