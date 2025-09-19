@@ -1,5 +1,5 @@
 // Service Worker pour le cache et le fonctionnement hors ligne
-const CACHE_NAME = 'vap-quiz-v2.4.0';
+const CACHE_NAME = 'vap-quiz-v2.5.0';
 const urlsToCache = [
     '/Quizz-VapStation/',
     '/Quizz-VapStation/index.html',
@@ -8,7 +8,7 @@ const urlsToCache = [
     '/Quizz-VapStation/js/quiz.js',
     '/Quizz-VapStation/js/data.js',
     '/Quizz-VapStation/js/storage.js',
-    '/Quizz-VapStation/manifest.json',
+    '/Quizz-VapStation/manifest.json?v=2.5.0',
     '/Quizz-VapStation/sw.js',
     '/Quizz-VapStation/icons/icon-72.svg',
     '/Quizz-VapStation/icons/icon-96.svg',
@@ -66,6 +66,29 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     // Ignorer les requêtes non-HTTP
     if (!event.request.url.startsWith('http')) {
+        return;
+    }
+
+    // Forcer la revalidation du manifest.json
+    if (event.request.url.includes('manifest.json')) {
+        event.respondWith(
+            fetch(event.request, { cache: 'no-cache' })
+                .then((response) => {
+                    if (response.ok) {
+                        console.log('Service Worker: Manifest.json rechargé depuis le réseau');
+                        // Mettre à jour le cache avec la nouvelle version
+                        const responseToCache = response.clone();
+                        caches.open(CACHE_NAME).then((cache) => {
+                            cache.put(event.request, responseToCache);
+                        });
+                    }
+                    return response;
+                })
+                .catch(() => {
+                    console.log('Service Worker: Échec réseau pour manifest, utilisation du cache');
+                    return caches.match(event.request);
+                })
+        );
         return;
     }
 
