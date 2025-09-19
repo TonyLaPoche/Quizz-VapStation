@@ -1,15 +1,15 @@
 // Service Worker pour le cache et le fonctionnement hors ligne
-const CACHE_NAME = 'vap-quiz-v2.0.0';
+const CACHE_NAME = 'vap-quiz-v2.1.0';
 const urlsToCache = [
-    './',
-    './index.html',
-    './styles/main.css',
-    './js/app.js',
-    './js/quiz.js',
-    './js/data.js',
-    './js/storage.js',
-    './manifest.json',
-    './sw.js'
+    '/Quizz-VapStation/',
+    '/Quizz-VapStation/index.html',
+    '/Quizz-VapStation/styles/main.css',
+    '/Quizz-VapStation/js/app.js',
+    '/Quizz-VapStation/js/quiz.js',
+    '/Quizz-VapStation/js/data.js',
+    '/Quizz-VapStation/js/storage.js',
+    '/Quizz-VapStation/manifest.json',
+    '/Quizz-VapStation/sw.js'
 ];
 
 // Installation du Service Worker
@@ -89,7 +89,7 @@ self.addEventListener('fetch', (event) => {
                     
                     // En cas d'erreur réseau, retourner la page d'accueil depuis le cache
                     if (event.request.destination === 'document') {
-                        return caches.match('./index.html');
+                        return caches.match('/Quizz-VapStation/index.html');
                     }
                     
                     // Pour les autres ressources, on peut retourner une réponse par défaut

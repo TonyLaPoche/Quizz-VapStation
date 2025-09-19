@@ -40,6 +40,12 @@ class VapQuizApp {
             productsBtn.addEventListener('click', () => this.showProducts());
         }
 
+        // Bouton d'installation PWA
+        const installBtn = document.getElementById('install-btn');
+        if (installBtn) {
+            installBtn.addEventListener('click', () => this.installPWA());
+        }
+
         // Boutons de navigation
         const backToHome = document.getElementById('back-to-home');
         if (backToHome) {
@@ -483,6 +489,40 @@ class VapQuizApp {
         }
     }
 
+    // Installer la PWA manuellement
+    installPWA() {
+        if (window.deferredPrompt) {
+            window.deferredPrompt.prompt();
+            window.deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('🎉 Utilisateur a accepté l\'installation');
+                } else {
+                    console.log('❌ Utilisateur a refusé l\'installation');
+                }
+                window.deferredPrompt = null;
+                this.hideInstallButton();
+            });
+        } else {
+            alert('L\'installation n\'est pas disponible. Utilisez le menu de votre navigateur pour "Ajouter à l\'écran d\'accueil".');
+        }
+    }
+
+    // Afficher le bouton d'installation
+    showInstallButton() {
+        const installBtn = document.getElementById('install-btn');
+        if (installBtn) {
+            installBtn.style.display = 'block';
+        }
+    }
+
+    // Masquer le bouton d'installation
+    hideInstallButton() {
+        const installBtn = document.getElementById('install-btn');
+        if (installBtn) {
+            installBtn.style.display = 'none';
+        }
+    }
+
     // Gérer les erreurs globales
     handleError(error, context = '') {
         console.error(`Erreur dans ${context}:`, error);
@@ -534,7 +574,7 @@ if (!storage.isAvailable()) {
 // Service Worker pour PWA (si disponible)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('/Quizz-VapStation/sw.js')
             .then(registration => {
                 console.log('✅ Service Worker enregistré avec succès:', registration.scope);
                 
@@ -559,18 +599,19 @@ if ('serviceWorker' in navigator) {
     });
     
     // Détecter quand l'app est prête à être installée
-    let deferredPrompt;
+    window.deferredPrompt = null;
     window.addEventListener('beforeinstallprompt', (e) => {
         console.log('📱 Application prête à être installée');
         e.preventDefault();
-        deferredPrompt = e;
+        window.deferredPrompt = e;
         
-        // Optionnel : afficher un bouton d'installation personnalisé
-        // showInstallButton();
+        // Afficher le bouton d'installation personnalisé
+        app.showInstallButton();
     });
     
     // Détecter quand l'app a été installée
     window.addEventListener('appinstalled', (evt) => {
         console.log('🎉 Application installée avec succès !');
+        app.hideInstallButton();
     });
 }
