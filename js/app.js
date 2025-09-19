@@ -534,12 +534,43 @@ if (!storage.isAvailable()) {
 // Service Worker pour PWA (si disponible)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('./sw.js')
             .then(registration => {
-                console.log('SW enregistré:', registration);
+                console.log('✅ Service Worker enregistré avec succès:', registration.scope);
+                
+                // Écouter les mises à jour
+                registration.addEventListener('updatefound', () => {
+                    console.log('🔄 Nouvelle version du Service Worker disponible');
+                });
+                
+                // Vérifier périodiquement les mises à jour
+                setInterval(() => {
+                    registration.update();
+                }, 60000); // Vérifier toutes les minutes
             })
             .catch(registrationError => {
-                console.log('Erreur SW:', registrationError);
+                console.error('❌ Erreur lors de l\'enregistrement du Service Worker:', registrationError);
             });
+    });
+
+    // Écouter les messages du Service Worker
+    navigator.serviceWorker.addEventListener('message', event => {
+        console.log('📩 Message du Service Worker:', event.data);
+    });
+    
+    // Détecter quand l'app est prête à être installée
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('📱 Application prête à être installée');
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Optionnel : afficher un bouton d'installation personnalisé
+        // showInstallButton();
+    });
+    
+    // Détecter quand l'app a été installée
+    window.addEventListener('appinstalled', (evt) => {
+        console.log('🎉 Application installée avec succès !');
     });
 }
