@@ -614,6 +614,20 @@ body {
     font-size: 0.9rem;
 }
 
+.privacy-note {
+    background: #f0f9ff;
+    border-left: 4px solid #0369a1;
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+    margin-top: 1rem;
+}
+
+.privacy-note p {
+    margin: 0;
+    color: #0369a1;
+    font-size: 0.9rem;
+}
+
 /* Liste des produits */
 .products-intro {
     background: white;
