@@ -1,5 +1,5 @@
 // Service Worker pour le cache et le fonctionnement hors ligne
-const CACHE_NAME = 'vap-quiz-v2.3.0';
+const CACHE_NAME = 'vap-quiz-v2.4.0';
 const urlsToCache = [
     '/Quizz-VapStation/',
     '/Quizz-VapStation/index.html',
@@ -51,7 +51,13 @@ self.addEventListener('activate', (event) => {
             );
         }).then(() => {
             console.log('Service Worker: Activé et prêt !');
-            return self.clients.claim(); // Prend le contrôle immédiatement
+            // Forcer le rechargement de toutes les pages ouvertes
+            return self.clients.matchAll().then((clients) => {
+                clients.forEach(client => {
+                    client.postMessage({ type: 'CACHE_UPDATED' });
+                });
+                return self.clients.claim(); // Prend le contrôle immédiatement
+            });
         })
     );
 });

@@ -596,6 +596,10 @@ if ('serviceWorker' in navigator) {
     // Écouter les messages du Service Worker
     navigator.serviceWorker.addEventListener('message', event => {
         console.log('📩 Message du Service Worker:', event.data);
+        if (event.data && event.data.type === 'CACHE_UPDATED') {
+            console.log('🔄 Cache mis à jour, rechargement de la page...');
+            window.location.reload();
+        }
     });
     
     // Détecter quand l'app est prête à être installée
