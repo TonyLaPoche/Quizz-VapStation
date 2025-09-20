@@ -302,9 +302,10 @@ class VapQuizApp {
             // Animation spéciale pour score parfait
             if (results.percentage === 100) {
                 scoreCircle.classList.add('perfect-score');
-                // Déclencher les confettis après un petit délai
+                // Déclencher les confettis et le son après un petit délai
                 setTimeout(() => {
                     this.triggerConfetti();
+                    this.playSuccessSound();
                 }, 500);
             }
         }
@@ -601,6 +602,32 @@ class VapQuizApp {
                 confettiContainer.parentNode.removeChild(confettiContainer);
             }
         }, 10000);
+    }
+
+    // Jouer le son de succès pour score parfait
+    playSuccessSound() {
+        try {
+            const audio = new Audio('./sound/success-fanfare-trumpets-6185.mp3');
+            audio.volume = 0.7; // Volume à 70% pour ne pas être trop fort
+            
+            // Jouer le son
+            const playPromise = audio.play();
+            
+            // Gérer les navigateurs qui bloquent l'autoplay
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        console.log('🔊 Son de succès joué !');
+                    })
+                    .catch(error => {
+                        console.log('⚠️ Impossible de jouer le son (autoplay bloqué):', error);
+                        // Le son ne joue pas mais l'animation continue
+                    });
+            }
+        } catch (error) {
+            console.log('⚠️ Erreur lors du chargement du son:', error);
+            // Continuer sans son en cas d'erreur
+        }
     }
 
     // Gérer les erreurs globales

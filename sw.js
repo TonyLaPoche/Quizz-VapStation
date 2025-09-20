@@ -1,5 +1,5 @@
 // Service Worker pour le cache et le fonctionnement hors ligne
-const CACHE_NAME = 'vap-quiz-v2.5.0';
+const CACHE_NAME = 'vap-quiz-v2.6.0';
 const urlsToCache = [
     '/Quizz-VapStation/',
     '/Quizz-VapStation/index.html',
@@ -14,7 +14,8 @@ const urlsToCache = [
     '/Quizz-VapStation/icons/icon-96.svg',
     '/Quizz-VapStation/icons/icon-128.svg',
     '/Quizz-VapStation/icons/icon-192.svg',
-    '/Quizz-VapStation/icons/icon-512.svg'
+    '/Quizz-VapStation/icons/icon-512.svg',
+    '/Quizz-VapStation/sound/success-fanfare-trumpets-6185.mp3'
 ];
 
 // Installation du Service Worker
