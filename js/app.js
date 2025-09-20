@@ -91,6 +91,12 @@ class VapQuizApp {
     // Démarrer un quiz
     startQuiz(mode) {
         try {
+            // Nettoyer les animations précédentes
+            const scoreCircle = document.querySelector('.score-circle');
+            if (scoreCircle) {
+                scoreCircle.classList.remove('perfect-score');
+            }
+            
             // Adapter le nombre de questions selon le mode
             let questionsCount = 10;
             if (mode === 'all') {
@@ -100,7 +106,7 @@ class VapQuizApp {
                 // Pour "Quiz Mélangé", garder 10 questions (2-3 par gamme)
                 questionsCount = 10;
             }
-            
+
             const question = quizEngine.startQuiz(mode, questionsCount);
             screenManager.showScreen('quiz-screen');
             this.displayQuestion(question);
@@ -292,11 +298,26 @@ class VapQuizApp {
         const scoreCircle = document.querySelector('.score-circle');
         if (scoreCircle) {
             scoreCircle.style.background = `linear-gradient(135deg, ${tips.color}, ${tips.color}dd)`;
+            
+            // Animation spéciale pour score parfait
+            if (results.percentage === 100) {
+                scoreCircle.classList.add('perfect-score');
+                // Déclencher les confettis après un petit délai
+                setTimeout(() => {
+                    this.triggerConfetti();
+                }, 500);
+            }
         }
     }
 
     // Redémarrer le quiz actuel
     restartCurrentQuiz() {
+        // Nettoyer les animations précédentes
+        const scoreCircle = document.querySelector('.score-circle');
+        if (scoreCircle) {
+            scoreCircle.classList.remove('perfect-score');
+        }
+        
         const question = quizEngine.restart();
         if (question) {
             screenManager.showScreen('quiz-screen');
@@ -521,6 +542,65 @@ class VapQuizApp {
         if (installBtn) {
             installBtn.style.display = 'none';
         }
+    }
+
+    // Déclencher l'animation de confettis pour un score parfait
+    triggerConfetti() {
+        // Créer le conteneur de confettis
+        const confettiContainer = document.createElement('div');
+        confettiContainer.className = 'confetti-container';
+        document.body.appendChild(confettiContainer);
+
+        const colors = [
+            '#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', 
+            '#e67e22', '#1abc9c', '#e91e63', '#ff5722', '#795548',
+            '#607d8b', '#ffeb3b', '#4caf50', '#ff9800', '#673ab7',
+            '#009688', '#f44336', '#2196f3', '#8bc34a', '#ffc107'
+        ];
+
+        const shapes = ['square', 'circle'];
+        const animations = ['confetti-1', 'confetti-2', 'confetti-3', 'confetti-4', 'confetti-5'];
+
+        // Créer 100 confettis pour un effet encore plus spectaculaire
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            // Forme aléatoire
+            const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+            confetti.classList.add(randomShape);
+            
+            // Animation aléatoire
+            const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+            confetti.classList.add(randomAnimation);
+            
+            // Couleur aléatoire
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.backgroundColor = randomColor;
+            
+            // Position de départ aléatoire sur toute la largeur
+            confetti.style.left = Math.random() * 100 + '%';
+            
+            // Position initiale complètement hors écran
+            confetti.style.top = '-120px';
+            
+            // Taille légèrement variée
+            const size = Math.random() * 4 + 6; // Entre 6px et 10px
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
+            
+            // Délai aléatoire pour étaler l'animation sur plus de temps
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+            
+            confettiContainer.appendChild(confetti);
+        }
+
+        // Supprimer le conteneur après l'animation (temps doublé)
+        setTimeout(() => {
+            if (confettiContainer.parentNode) {
+                confettiContainer.parentNode.removeChild(confettiContainer);
+            }
+        }, 10000);
     }
 
     // Gérer les erreurs globales
