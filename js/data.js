@@ -123,7 +123,7 @@ const vapStationData = {
                 flavors: ["Cassis", "Mangue"]
             },
             {
-                name: "Ragnar",
+                name: "Ragnor",
                 flavors: ["Fraises", "Framboises", "Frais", "Cassis"]
             },
             {
