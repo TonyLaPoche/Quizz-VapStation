@@ -118,7 +118,7 @@ class VapQuizApp {
 
     renderGameModes() {
         const container = document.getElementById('game-modes');
-        if (!container) return;
+        if (!container || typeof vapStationData === 'undefined') return;
 
         container.innerHTML = '';
 
@@ -404,6 +404,7 @@ class VapQuizApp {
 
     // Afficher l'écran d'accueil
     showHome() {
+        this.renderGameModes();
         screenManager.showScreen('home-screen');
     }
 
@@ -427,8 +428,9 @@ class VapQuizApp {
     updateShareScoreSection() {
         const shareSection = document.getElementById('share-score-section');
         const unavailableSection = document.getElementById('share-score-unavailable');
+        const isLeaderboardReady = typeof leaderboardService !== 'undefined' && leaderboardService.isEnabled();
 
-        if (leaderboardService.isEnabled()) {
+        if (isLeaderboardReady) {
             if (shareSection) shareSection.style.display = 'block';
             if (unavailableSection) unavailableSection.style.display = 'none';
         } else {
@@ -495,8 +497,8 @@ class VapQuizApp {
 
         if (!status || !tbody) return;
 
-        if (!leaderboardService.isEnabled()) {
-            status.textContent = 'Firebase non configuré. Copiez js/firebase-config.example.js vers js/firebase-config.js.';
+        if (typeof leaderboardService === 'undefined' || !leaderboardService.isEnabled()) {
+            status.textContent = 'Le classement public n\'est pas disponible pour le moment.';
             status.className = 'leaderboard-status error';
             tbody.innerHTML = '';
             return;
@@ -643,7 +645,7 @@ class VapQuizApp {
     // Mettre à jour l'affichage de la liste des produits
     updateProductsList() {
         const productsList = document.getElementById('products-list');
-        if (!productsList) return;
+        if (!productsList || typeof vapStationData === 'undefined') return;
 
         productsList.innerHTML = '';
 

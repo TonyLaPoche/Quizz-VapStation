@@ -7,28 +7,33 @@ class LeaderboardService {
     }
 
     init() {
-        if (typeof firebaseConfig === 'undefined') {
-            console.warn('Firebase : firebase-config.js manquant');
-            return;
-        }
+        try {
+            if (typeof firebaseConfig === 'undefined') {
+                console.warn('Firebase : firebase-config.js manquant');
+                return;
+            }
 
-        const placeholders = ['YOUR_API_KEY', 'YOUR_PROJECT_ID', ''];
-        if (!firebaseConfig.apiKey || placeholders.includes(firebaseConfig.apiKey)) {
-            console.warn('Firebase : configuration non renseignée (voir firebase-config.example.js)');
-            return;
-        }
+            const placeholders = ['YOUR_API_KEY', 'YOUR_PROJECT_ID', ''];
+            if (!firebaseConfig.apiKey || placeholders.includes(firebaseConfig.apiKey)) {
+                console.warn('Firebase : configuration non renseignée (voir firebase-config.example.js)');
+                return;
+            }
 
-        if (typeof firebase === 'undefined') {
-            console.warn('Firebase : SDK non chargé');
-            return;
-        }
+            if (typeof firebase === 'undefined') {
+                console.warn('Firebase : SDK non chargé');
+                return;
+            }
 
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
 
-        this.db = firebase.firestore();
-        this.enabled = true;
+            this.db = firebase.firestore();
+            this.enabled = true;
+        } catch (error) {
+            console.warn('Firebase : initialisation impossible', error);
+            this.enabled = false;
+        }
     }
 
     isEnabled() {
