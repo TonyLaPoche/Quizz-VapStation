@@ -93,17 +93,16 @@ class LeaderboardService {
             throw new Error('Le classement public n\'est pas configuré.');
         }
 
+        // Tri simple côté Firestore (index auto) + tri secondaire côté client
         const snapshot = await this.db.collection('scores')
             .orderBy('percentage', 'desc')
-            .orderBy('createdAt', 'desc')
             .limit(limit)
             .get();
 
-        return snapshot.docs.map((doc, index) => {
+        const scores = snapshot.docs.map((doc) => {
             const data = doc.data();
             return {
                 id: doc.id,
-                rank: index + 1,
                 postalCode: data.postalCode,
                 initials: data.initials,
                 score: data.score,
@@ -113,6 +112,20 @@ class LeaderboardService {
                 createdAt: data.createdAt?.toDate?.() || null
             };
         });
+
+        scores.sort((a, b) => {
+            if (b.percentage !== a.percentage) {
+                return b.percentage - a.percentage;
+            }
+            const dateA = a.createdAt ? a.createdAt.getTime() : 0;
+            const dateB = b.createdAt ? b.createdAt.getTime() : 0;
+            return dateB - dateA;
+        });
+
+        return scores.slice(0, limit).map((entry, index) => ({
+            ...entry,
+            rank: index + 1
+        }));
     }
 
     formatDate(date) {

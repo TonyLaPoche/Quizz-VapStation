@@ -1,5 +1,5 @@
 // Service Worker pour le cache et le fonctionnement hors ligne
-const CACHE_NAME = 'vap-quiz-v3.0.0';
+const CACHE_NAME = 'vap-quiz-v3.0.1';
 const urlsToCache = [
     '/Quizz-VapStation/',
     '/Quizz-VapStation/index.html',
@@ -10,7 +10,7 @@ const urlsToCache = [
     '/Quizz-VapStation/js/storage.js',
     '/Quizz-VapStation/js/leaderboard.js',
     '/Quizz-VapStation/js/firebase-config.js',
-    '/Quizz-VapStation/manifest.json?v=3.0.0',
+    '/Quizz-VapStation/manifest.json?v=3.0.1',
     '/Quizz-VapStation/sw.js',
     '/Quizz-VapStation/icons/icon-72.svg',
     '/Quizz-VapStation/icons/icon-96.svg',
