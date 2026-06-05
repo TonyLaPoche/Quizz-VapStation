@@ -1,0 +1,32 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /scores/{scoreId} {
+      allow read: if true;
+
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'postalCode', 'initials', 'score', 'totalQuestions',
+          'percentage', 'mode', 'modeName', 'createdAt'
+        ])
+        && request.resource.data.postalCode is string
+        && request.resource.data.postalCode.matches('^[0-9]{5}$')
+        && request.resource.data.initials is string
+        && request.resource.data.initials.matches('^[A-Z]{2}$')
+        && request.resource.data.score is int
+        && request.resource.data.totalQuestions is int
+        && request.resource.data.percentage is int
+        && request.resource.data.score >= 0
+        && request.resource.data.totalQuestions > 0
+        && request.resource.data.score <= request.resource.data.totalQuestions
+        && request.resource.data.percentage >= 0
+        && request.resource.data.percentage <= 100
+        && request.resource.data.mode is string
+        && request.resource.data.modeName is string
+        && request.resource.data.createdAt == request.time;
+
+      allow update, delete: if false;
+    }
+  }
+}

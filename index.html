@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Quizz - Vap'Station</title>
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="manifest" href="manifest.json?v=2.8.0">
+    <link rel="manifest" href="manifest.json?v=2.9.0">
     <meta name="theme-color" content="#2563eb">
 </head>
 <body>
@@ -24,6 +24,10 @@
                     <div class="game-modes" id="game-modes">
                         <!-- Généré dynamiquement depuis js/data.js -->
                     </div>
+                    
+                    <button class="secondary-btn" id="leaderboard-btn">
+                        🏆 Classement public
+                    </button>
                     
                     <button class="secondary-btn" id="history-btn">
                         📊 Historique & Scores
@@ -82,10 +86,66 @@
                     <div class="score-message" id="score-message">
                         Excellent travail !
                     </div>
+
+                    <div class="share-score-section" id="share-score-section">
+                        <h3>🏆 Partager votre score</h3>
+                        <p class="share-score-intro">Apparaissez dans le classement public avec votre code postal et vos initiales.</p>
+                        <form id="share-score-form" class="share-score-form">
+                            <div class="share-score-fields">
+                                <div class="form-field">
+                                    <label for="share-postal-code">Code postal</label>
+                                    <input type="text" id="share-postal-code" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" placeholder="75001" required>
+                                </div>
+                                <div class="form-field">
+                                    <label for="share-initials">Initiales</label>
+                                    <input type="text" id="share-initials" maxlength="2" placeholder="AT" required autocapitalize="characters">
+                                </div>
+                            </div>
+                            <label class="consent-label">
+                                <input type="checkbox" id="share-consent" required>
+                                J'accepte que mon score (code postal + initiales) soit publié dans le classement public.
+                            </label>
+                            <button type="submit" class="primary-btn" id="share-score-btn">Publier mon score</button>
+                            <p class="share-score-feedback" id="share-score-feedback" aria-live="polite"></p>
+                        </form>
+                    </div>
+
+                    <div class="share-score-unavailable" id="share-score-unavailable" style="display: none;">
+                        <p>Le classement public n'est pas encore configuré sur cette instance.</p>
+                    </div>
                     
                     <div class="results-actions">
                         <button class="primary-btn" id="restart-quiz">Recommencer</button>
                         <button class="secondary-btn" id="back-to-menu">Menu Principal</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Écran Classement public -->
+            <div id="leaderboard-screen" class="screen">
+                <div class="leaderboard-header">
+                    <button class="back-btn" id="back-from-leaderboard">← Retour</button>
+                    <h2>🏆 Classement public</h2>
+                </div>
+
+                <div class="leaderboard-content">
+                    <p class="leaderboard-intro">Meilleurs scores partagés par la communauté.</p>
+                    <button class="secondary-btn" id="refresh-leaderboard">🔄 Actualiser</button>
+                    <div class="leaderboard-status" id="leaderboard-status"></div>
+                    <div class="leaderboard-table-wrapper">
+                        <table class="leaderboard-table" id="leaderboard-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Joueur</th>
+                                    <th>Score</th>
+                                    <th>Mode</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-body">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -187,18 +247,22 @@
                         <p>Votre vie privée est notre priorité. Cette application est entièrement <strong>conforme au RGPD</strong> :</p>
                         
                         <ul>
-                            <li>🏠 <strong>Stockage 100% local</strong> : Toutes vos données restent sur votre appareil</li>
-                            <li>🚫 <strong>Aucune transmission</strong> : Aucune donnée n'est envoyée vers des serveurs externes</li>
-                            <li>🔐 <strong>Pas de cookies</strong> : Aucun traceur ou cookie publicitaire</li>
-                            <li>👤 <strong>Anonymat total</strong> : Aucune information personnelle collectée</li>
-                            <li>🗑️ <strong>Contrôle total</strong> : Vous pouvez effacer vos données à tout moment</li>
+                            <li>🏠 <strong>Historique local</strong> : scores et stats restent sur votre appareil</li>
+                            <li>🏆 <strong>Classement public (optionnel)</strong> : si vous partagez un score, code postal + initiales + résultat sont envoyés à Firebase</li>
+                            <li>🔐 <strong>Pas de cookies publicitaires</strong></li>
+                            <li>🗑️ <strong>Contrôle total</strong> : vous pouvez effacer vos données locales à tout moment</li>
                         </ul>
                         
                         <p><strong>Données stockées localement :</strong></p>
                         <ul>
                             <li>Résultats de vos quiz (scores, dates, modes)</li>
                             <li>Statistiques de performance par gamme</li>
-                            <li>Préférences d'affichage</li>
+                        </ul>
+
+                        <p><strong>Données du classement public (si vous choisissez de partager) :</strong></p>
+                        <ul>
+                            <li>Code postal et initiales</li>
+                            <li>Score, mode de jeu et date du quiz</li>
                         </ul>
                         
                         <div class="privacy-note">
@@ -267,8 +331,12 @@
         </footer>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
     <script src="js/data.js"></script>
     <script src="js/storage.js"></script>
+    <script src="js/leaderboard.js"></script>
     <script src="js/quiz.js"></script>
     <script src="js/app.js"></script>
 </body>

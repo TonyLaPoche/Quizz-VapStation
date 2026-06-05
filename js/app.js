@@ -1,6 +1,7 @@
 // Application principale - Gestion de l'interface utilisateur
 class VapQuizApp {
     constructor() {
+        this.currentResults = null;
         this.init();
     }
 
@@ -30,6 +31,29 @@ class VapQuizApp {
         const historyBtn = document.getElementById('history-btn');
         if (historyBtn) {
             historyBtn.addEventListener('click', () => this.showHistory());
+        }
+
+        const leaderboardBtn = document.getElementById('leaderboard-btn');
+        if (leaderboardBtn) {
+            leaderboardBtn.addEventListener('click', () => this.showLeaderboard());
+        }
+
+        const backFromLeaderboard = document.getElementById('back-from-leaderboard');
+        if (backFromLeaderboard) {
+            backFromLeaderboard.addEventListener('click', () => this.showHome());
+        }
+
+        const refreshLeaderboard = document.getElementById('refresh-leaderboard');
+        if (refreshLeaderboard) {
+            refreshLeaderboard.addEventListener('click', () => this.updateLeaderboardDisplay());
+        }
+
+        const shareScoreForm = document.getElementById('share-score-form');
+        if (shareScoreForm) {
+            shareScoreForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.submitShareScore();
+            });
         }
 
         // Bouton à propos
@@ -324,7 +348,10 @@ class VapQuizApp {
     // Afficher les résultats
     showResults() {
         const results = quizEngine.getResults();
+        this.currentResults = results;
         screenManager.showScreen('results-screen');
+        this.resetShareForm();
+        this.updateShareScoreSection();
 
         const finalScore = document.getElementById('final-score');
         const finalTotal = document.getElementById('final-total');
@@ -395,6 +422,118 @@ class VapQuizApp {
     showProducts() {
         screenManager.showScreen('products-screen');
         this.updateProductsList();
+    }
+
+    updateShareScoreSection() {
+        const shareSection = document.getElementById('share-score-section');
+        const unavailableSection = document.getElementById('share-score-unavailable');
+
+        if (leaderboardService.isEnabled()) {
+            if (shareSection) shareSection.style.display = 'block';
+            if (unavailableSection) unavailableSection.style.display = 'none';
+        } else {
+            if (shareSection) shareSection.style.display = 'none';
+            if (unavailableSection) unavailableSection.style.display = 'block';
+        }
+    }
+
+    resetShareForm() {
+        const form = document.getElementById('share-score-form');
+        const feedback = document.getElementById('share-score-feedback');
+        if (form) form.reset();
+        if (feedback) {
+            feedback.textContent = '';
+            feedback.className = 'share-score-feedback';
+        }
+    }
+
+    async submitShareScore() {
+        if (!this.currentResults) return;
+
+        const postalInput = document.getElementById('share-postal-code');
+        const initialsInput = document.getElementById('share-initials');
+        const consentInput = document.getElementById('share-consent');
+        const feedback = document.getElementById('share-score-feedback');
+        const submitBtn = document.getElementById('share-score-btn');
+
+        if (!postalInput || !initialsInput || !consentInput || !feedback) return;
+
+        if (!consentInput.checked) {
+            feedback.textContent = 'Veuillez accepter la publication de votre score.';
+            feedback.className = 'share-score-feedback error';
+            return;
+        }
+
+        if (submitBtn) submitBtn.disabled = true;
+        feedback.textContent = 'Publication en cours...';
+        feedback.className = 'share-score-feedback';
+
+        try {
+            await leaderboardService.submitScore(
+                this.currentResults,
+                postalInput.value,
+                initialsInput.value
+            );
+            feedback.textContent = 'Score publié ! Consultez le classement public.';
+            feedback.className = 'share-score-feedback success';
+        } catch (error) {
+            feedback.textContent = error.message || 'Impossible de publier le score.';
+            feedback.className = 'share-score-feedback error';
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+        }
+    }
+
+    showLeaderboard() {
+        screenManager.showScreen('leaderboard-screen');
+        this.updateLeaderboardDisplay();
+    }
+
+    async updateLeaderboardDisplay() {
+        const status = document.getElementById('leaderboard-status');
+        const tbody = document.getElementById('leaderboard-body');
+
+        if (!status || !tbody) return;
+
+        if (!leaderboardService.isEnabled()) {
+            status.textContent = 'Firebase non configuré. Copiez js/firebase-config.example.js vers js/firebase-config.js.';
+            status.className = 'leaderboard-status error';
+            tbody.innerHTML = '';
+            return;
+        }
+
+        status.textContent = 'Chargement du classement...';
+        status.className = 'leaderboard-status';
+
+        try {
+            const scores = await leaderboardService.fetchTopScores(50);
+            tbody.innerHTML = '';
+
+            if (scores.length === 0) {
+                status.textContent = 'Aucun score partagé pour le moment. Soyez le premier !';
+                status.className = 'leaderboard-status';
+                return;
+            }
+
+            status.textContent = `${scores.length} score${scores.length > 1 ? 's' : ''} affiché${scores.length > 1 ? 's' : ''}`;
+            status.className = 'leaderboard-status success';
+
+            scores.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.rank}</td>
+                    <td><strong>${entry.initials}</strong> (${entry.postalCode})</td>
+                    <td>${entry.percentage}% <span class="leaderboard-detail">${entry.score}/${entry.totalQuestions}</span></td>
+                    <td>${entry.modeName}</td>
+                    <td>${leaderboardService.formatDate(entry.createdAt)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        } catch (error) {
+            status.textContent = error.message || 'Erreur lors du chargement du classement.';
+            status.className = 'leaderboard-status error';
+            tbody.innerHTML = '';
+        }
     }
 
     // Mettre à jour l'affichage de l'historique

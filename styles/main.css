@@ -988,3 +988,142 @@ body {
         box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
     }
 }
+
+/* Partage de score & classement public */
+.share-score-section {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    text-align: left;
+}
+
+.share-score-section h3 {
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.share-score-intro {
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.share-score-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.form-field label {
+    display: block;
+    font-size: 0.8rem;
+    color: #4b5563;
+    margin-bottom: 0.25rem;
+}
+
+.form-field input {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #4b5563;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.consent-label input {
+    margin-top: 0.15rem;
+}
+
+.share-score-feedback {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.share-score-feedback.success {
+    color: #059669;
+}
+
+.share-score-feedback.error {
+    color: #ef4444;
+}
+
+.share-score-unavailable {
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background: #fef3c7;
+    border-radius: 8px;
+    color: #92400e;
+    font-size: 0.85rem;
+}
+
+.leaderboard-header,
+.leaderboard-content {
+    padding: 0 0.25rem;
+}
+
+.leaderboard-intro {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.leaderboard-status {
+    margin: 0.75rem 0;
+    font-size: 0.85rem;
+    color: #6b7280;
+    text-align: center;
+}
+
+.leaderboard-status.success {
+    color: #059669;
+}
+
+.leaderboard-status.error {
+    color: #ef4444;
+}
+
+.leaderboard-table-wrapper {
+    overflow-x: auto;
+    margin-top: 0.5rem;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 0.6rem 0.4rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.leaderboard-table th {
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.leaderboard-table td strong {
+    color: #2563eb;
+}
+
+.leaderboard-detail {
+    color: #9ca3af;
+    font-size: 0.75rem;
+}

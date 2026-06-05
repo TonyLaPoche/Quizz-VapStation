@@ -11,7 +11,7 @@ node_modules/
 dist/
 build/
 
-# Environment variables
+# Environment variables (optionnel — utile si vous ajoutez un build Vite/Webpack plus tard)
 .env
 .env.local
 .env.development.local

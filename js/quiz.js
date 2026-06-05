@@ -272,7 +272,7 @@ class QuizEngine {
 class ScreenManager {
     constructor() {
         this.currentScreen = 'home-screen';
-        this.screens = ['home-screen', 'quiz-screen', 'results-screen', 'history-screen', 'about-screen', 'products-screen'];
+        this.screens = ['home-screen', 'quiz-screen', 'results-screen', 'history-screen', 'about-screen', 'products-screen', 'leaderboard-screen'];
     }
 
     showScreen(screenId) {
