@@ -1,7 +1,7 @@
 {
     "name": "Vap'Station Quiz - Révisez vos e-liquides",
     "short_name": "Vap'Quiz",
-    "description": "Application PWA pour maîtriser les arômes des e-liquides Vap'Station. Quiz par gamme, statistiques détaillées, fonctionnement hors ligne.",
+    "description": "Application PWA pour maîtriser les arômes des e-liquides Vap'Station. 7 gammes, 42 produits, quiz par gamme, statistiques détaillées, fonctionnement hors ligne.",
     "start_url": "/Quizz-VapStation/",
     "scope": "/Quizz-VapStation/",
     "display": "standalone",

@@ -14,13 +14,17 @@ class VapQuizApp {
     }
 
     setupEventListeners() {
-        // Boutons du menu principal
-        document.querySelectorAll('.mode-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const mode = e.currentTarget.getAttribute('data-mode');
-                this.startQuiz(mode);
+        this.renderGameModes();
+
+        const gameModes = document.getElementById('game-modes');
+        if (gameModes) {
+            gameModes.addEventListener('click', (e) => {
+                const btn = e.target.closest('.mode-btn');
+                if (!btn) return;
+                const mode = btn.getAttribute('data-mode');
+                if (mode) this.startQuiz(mode);
             });
-        });
+        }
 
         // Bouton historique
         const historyBtn = document.getElementById('history-btn');
@@ -86,6 +90,50 @@ class VapQuizApp {
 
         // Initialiser l'affichage
         this.showHome();
+    }
+
+    renderGameModes() {
+        const container = document.getElementById('game-modes');
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        Object.keys(vapStationData).forEach(rangeKey => {
+            const range = vapStationData[rangeKey];
+            const btn = document.createElement('button');
+            btn.className = 'mode-btn';
+            btn.setAttribute('data-mode', rangeKey);
+            btn.innerHTML = `
+                <span class="mode-icon">${range.icon}</span>
+                <span class="mode-title">Gamme ${range.name}</span>
+            `;
+            container.appendChild(btn);
+        });
+
+        const mixedBtn = document.createElement('button');
+        mixedBtn.className = 'mode-btn special';
+        mixedBtn.setAttribute('data-mode', 'mixed');
+        mixedBtn.innerHTML = `
+            <span class="mode-icon">🎲</span>
+            <div class="mode-content">
+                <span class="mode-title">Quiz Mélangé</span>
+                <span class="mode-subtitle">10 questions équilibrées</span>
+            </div>
+        `;
+        container.appendChild(mixedBtn);
+
+        const totalProducts = getTotalProductCount();
+        const allBtn = document.createElement('button');
+        allBtn.className = 'mode-btn special';
+        allBtn.setAttribute('data-mode', 'all');
+        allBtn.innerHTML = `
+            <span class="mode-icon">🏆</span>
+            <div class="mode-content">
+                <span class="mode-title">Quiz Complet</span>
+                <span class="mode-subtitle">Tous les produits<br />(${totalProducts} questions)</span>
+            </div>
+        `;
+        container.appendChild(allBtn);
     }
 
     // Démarrer un quiz

@@ -100,8 +100,8 @@ class LocalStorage {
         });
 
         // Statistiques par gamme (pour les modes de gamme individuelle)
-        const rangeGames = history.filter(result => 
-            ['savage', 'inca', 'pupille', 'elfes'].includes(result.mode)
+        const rangeGames = history.filter(result =>
+            Object.keys(vapStationData).includes(result.mode)
         );
         
         rangeGames.forEach(result => {
@@ -162,35 +162,15 @@ class LocalStorage {
 
     // Obtenir le nom d'affichage d'une gamme
     getRangeDisplayName(rangeName) {
-        const rangeNames = {
-            'savage': 'Savage',
-            'inca': 'Inca',
-            'pupille': 'Pupille',
-            'elfes': 'Elfes'
-        };
-        return rangeNames[rangeName] || rangeName;
+        return vapStationData[rangeName]?.name || rangeName;
     }
 
-    // Obtenir l'icône d'une gamme
     getRangeIcon(rangeName) {
-        const rangeIcons = {
-            'savage': '🔥',
-            'inca': '🌿',
-            'pupille': '👁️',
-            'elfes': '🧝‍♀️'
-        };
-        return rangeIcons[rangeName] || '❓';
+        return vapStationData[rangeName]?.icon || '❓';
     }
 
-    // Obtenir la couleur d'une gamme
     getRangeColor(rangeName) {
-        const rangeColors = {
-            'savage': '#ef4444',
-            'inca': '#059669',
-            'pupille': '#7c3aed',
-            'elfes': '#10b981'
-        };
-        return rangeColors[rangeName] || '#6b7280';
+        return vapStationData[rangeName]?.color || '#6b7280';
     }
 
     // Sauvegarder les préférences utilisateur

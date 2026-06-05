@@ -38,31 +38,27 @@ class QuizEngine {
     // Générer les questions selon le mode
     generateQuestions(mode, count) {
         let products = [];
-        
+
         switch (mode) {
-            case 'savage':
-            case 'inca':
-            case 'pupille':
-            case 'elfes':
-                products = getProductsByRange(mode);
-                break;
-            case 'mixed':
-                // Quiz mélangé : sélection équilibrée de chaque gamme (2-3 produits par gamme)
-                const ranges = ['savage', 'inca', 'pupille', 'elfes'];
+            case 'mixed': {
+                const ranges = Object.keys(vapStationData);
                 ranges.forEach(range => {
                     const rangeProducts = getProductsByRange(range);
-                    // Prendre 2-3 produits aléatoirement de chaque gamme
                     const productsPerRange = Math.min(3, Math.ceil(count / ranges.length));
                     const selectedFromRange = getRandomProducts(rangeProducts, productsPerRange);
                     products = products.concat(selectedFromRange);
                 });
                 break;
+            }
             case 'all':
-                // Toutes les gammes : TOUS les produits disponibles
                 products = getAllProducts();
                 break;
             default:
-                throw new Error('Mode de quiz non reconnu');
+                if (vapStationData[mode]) {
+                    products = getProductsByRange(mode);
+                } else {
+                    throw new Error('Mode de quiz non reconnu');
+                }
         }
 
         if (products.length === 0) {
@@ -193,15 +189,10 @@ class QuizEngine {
 
     // Obtenir le nom d'affichage du mode
     getModeDisplayName(mode) {
-        const modeNames = {
-            'savage': 'Gamme Savage',
-            'inca': 'Gamme Inca',
-            'pupille': 'Gamme Pupille',
-            'elfes': 'Gamme Elfes',
-            'mixed': 'Quiz Mélangé',
-            'all': 'Quiz Complet'
-        };
-        return modeNames[mode] || mode;
+        if (mode === 'mixed') return 'Quiz Mélangé';
+        if (mode === 'all') return 'Quiz Complet';
+        const range = vapStationData[mode];
+        return range ? `Gamme ${range.name}` : mode;
     }
 
     // Obtenir une explication pour la réponse
