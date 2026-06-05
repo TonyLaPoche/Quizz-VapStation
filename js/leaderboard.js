@@ -93,11 +93,8 @@ class LeaderboardService {
             throw new Error('Le classement public n\'est pas configuré.');
         }
 
-        // Tri simple côté Firestore (index auto) + tri secondaire côté client
-        const snapshot = await this.db.collection('scores')
-            .orderBy('percentage', 'desc')
-            .limit(limit)
-            .get();
+        // Lecture simple sans orderBy → aucun index Firestore requis
+        const snapshot = await this.db.collection('scores').get();
 
         const scores = snapshot.docs.map((doc) => {
             const data = doc.data();
